@@ -6,6 +6,7 @@ using TMPro;
 
 public class Health : MonoBehaviour
 {
+    public Score score;
     public float health;
     public TextMeshPro healthText;
     public Slider healthBar;
@@ -13,10 +14,19 @@ public class Health : MonoBehaviour
     public Color maxHealthColor;
     public Color midHealthColor;
     public Color lowHealthColor;
+    public GameObject DeathScreen;
 
-    void TakeDamage(float damage)
+    public void Damage(float damage)
     {
         health -= damage;
+
+        if (health <= 0f)
+        {
+            score.SetHighScore();
+            DeathScreen.SetActive(true);
+            Destroy(gameObject);
+        }
+
         healthText.text = health.ToString();
         healthBar.value = health;
 
