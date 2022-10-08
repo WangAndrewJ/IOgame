@@ -16,15 +16,18 @@ public class Health : MonoBehaviour
     public Color midHealthColor;
     public Color lowHealthColor;
     public GameObject Player;
-    private void Start() {
-        score=GetComponent<Score>();
+
+    private void Start()
+    {
+        score = GetComponent<Score>();
     }
+
     public void Damage(float damage)
     {
-        Debug.Log("DMG");
         health -= damage;
-        if (health>100){
-            health=100;
+        if (health > 100)
+        {
+            health = 100;
         }
 
         if (health <= 0f)

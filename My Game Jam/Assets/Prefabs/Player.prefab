@@ -266,7 +266,9 @@ GameObject:
   - component: {fileID: 4378728581393977971}
   - component: {fileID: 4378728581393977968}
   - component: {fileID: 1123903870964026111}
-  m_Layer: 0
+  - component: {fileID: 8175730955447154403}
+  - component: {fileID: 179951185474695625}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,9 +310,14 @@ MonoBehaviour:
   BulletPrefab: {fileID: 9004306159965164452, guid: da715baa4736f694ab0c9bf9798007e6, type: 3}
   FirePoint: {fileID: 1985151044}
   force: 10
+  healthScript: {fileID: 8175730955447154403}
+  scoreScript: {fileID: 179951185474695625}
   aiHealth: 100
   isPlayer: 1
   gainOnKill: 100
+  maxDistance: 0
+  aiShootingDistance: 0
+  enemyDamage: 0
 --- !u!50 &4378728581393977971
 Rigidbody2D:
   serializedVersion: 4
@@ -388,3 +395,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8175730955447154403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378728581393977975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf49f21bd4190147a32ad81314236dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  healthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthBarFill: {fileID: 0}
+  maxHealthColor: {r: 0.32452035, g: 1, b: 0, a: 1}
+  midHealthColor: {r: 1, g: 0.8171741, b: 0, a: 1}
+  lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  Player: {fileID: 4378728581393977975}
+--- !u!114 &179951185474695625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378728581393977975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f320d7abbd8ed04db02f63f60cedeff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  damageOverTimeMultiplier: 1

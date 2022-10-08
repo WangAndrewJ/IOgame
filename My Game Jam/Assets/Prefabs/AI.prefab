@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4378728581393977971, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4378728581393977972, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -54,10 +58,14 @@ PrefabInstance:
     - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
       propertyPath: rb2d
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8284461876992268776}
     - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
       propertyPath: onKill
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: player
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
       propertyPath: isPlayer
@@ -67,10 +75,44 @@ PrefabInstance:
       propertyPath: gainOnKill
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: enemyDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: maxDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: scoreScript
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 7353089381647757827, guid: e6a7a636c06cc21478e799a1a3e50c52, type: 3}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: healthScript
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977973, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: aiShootingDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4378728581393977975, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
       propertyPath: m_Name
       value: AI
       objectReference: {fileID: 0}
+    - target: {fileID: 4378728581393977975, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 4378728581393977971, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+    - {fileID: 8175730955447154403, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+    - {fileID: 179951185474695625, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+--- !u!50 &8284461876992268776 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 4378728581393977971, guid: 803a2f714f3473f41ac1e5cdf7d249e2, type: 3}
+  m_PrefabInstance: {fileID: 5637394435063237531}
+  m_PrefabAsset: {fileID: 0}
