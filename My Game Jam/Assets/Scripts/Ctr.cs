@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class Ctr : MonoBehaviour
 {
@@ -9,27 +10,30 @@ public class Ctr : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] Rigidbody2D rb2d;
     Quaternion rotation;
-    [SerializeField] GameObject player;
     [SerializeField] GameObject BulletPrefab;
     GameObject Bullet;
     [SerializeField] GameObject FirePoint;
     [SerializeField] int force;
-    [SerializeField] Health healthScript;
-    [SerializeField] Score scoreScript;
-    [SerializeField] float aiHealth;
-    [SerializeField] bool isPlayer;
+    public Health healthScript;
+    public Score scoreScript;
+    public float aiHealth;
+    public bool isPlayer;
     [SerializeField] int gainOnKill;
     [SerializeField] float maxDistance;
     [SerializeField] float aiShootingDistance;
     private float distanceFromPlayer;
     public float enemyDamage;
+    public float fireRate;
+    private float nextTimeToFire;
+    [SerializeField] private EnemyScore aiScore;
+    public EnemySpawner spawner;
+    Transform closestTarget;
 
-    // Start is called before the first frame update
+/*    // Start is called before the first frame update
     void Start()
     {
-        healthScript.Damage(0);
-        scoreScript.AddScore(1);
-    }
+        healthScript = FindObjectOfType<Health>();
+    }*/
 
     // Update is called once per frame
     void FixedUpdate()
@@ -44,36 +48,52 @@ public class Ctr : MonoBehaviour
         }
         else
         {
-            Vector3 diff = player.transform.position - transform.position;
-            diff.Normalize();
-            float rotation = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, rotation);
-
-            if (aiHealth <= 0)
+            try
             {
-                healthScript.Damage(-gainOnKill);
-                scoreScript.AddScore(1);
-                Destroy(gameObject);
+                var closestTargets = spawner.players.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude);
+
+                closestTarget = closestTargets.Skip(1).Take(1).FirstOrDefault();
+                Vector3 diff = closestTarget.transform.position - transform.position;
+                diff.Normalize();
+                float rotation = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0f, 0f, rotation);
+
+                if (aiHealth <= 0)
+                {
+                    healthScript.Damage(-gainOnKill);
+                    scoreScript.AddScore(1);
+                    spawner.players.Remove(transform);
+                    Destroy(gameObject);
+                }
+
+                distanceFromPlayer = Vector3.Distance(closestTarget.transform.position, transform.position);
+
+                if (distanceFromPlayer > maxDistance)
+                {
+                    rb2d.velocity = transform.right * speed / 50;
+                    Debug.Log(rb2d.velocity);
+                }
+                else
+                {
+                    rb2d.velocity = Vector3.zero;
+                }
+
+                if (!isPlayer && distanceFromPlayer <= aiShootingDistance && Time.time >= nextTimeToFire)
+                {
+                    nextTimeToFire = Time.time + 1f / fireRate;
+                    Bullet = Instantiate(BulletPrefab, FirePoint.transform.position, FirePoint.transform.rotation);
+                    Bullet enemyBullet = Bullet.GetComponent<Bullet>();
+                    enemyBullet.damage = enemyDamage;
+                    enemyBullet.health = healthScript;
+                    enemyBullet.shooter = gameObject;
+                    enemyBullet.score = aiScore;
+                    enemyBullet.spawner = spawner;
+                    enemyBullet.AddForce(FirePoint.transform.up * force, ForceMode2D.Impulse);
+                }
             }
-
-            distanceFromPlayer = Vector3.Distance(player.transform.position, transform.position);
-
-            if (distanceFromPlayer > maxDistance)
+            catch
             {
-                rb2d.velocity = -Vector2.MoveTowards(player.transform.position, transform.position, speed * Time.fixedDeltaTime);
-            }
-            else
-            {
-                rb2d.velocity = Vector3.zero;
-            }
-
-            if (!isPlayer && distanceFromPlayer <= aiShootingDistance)
-            {
-                Bullet = Instantiate(BulletPrefab, FirePoint.transform.position, FirePoint.transform.rotation);
-                Bullet enemyBullet = Bullet.GetComponent<Bullet>();
-                enemyBullet.damage = enemyDamage;
-                enemyBullet.health = healthScript;
-                enemyBullet.AddForce(FirePoint.transform.up * force, ForceMode2D.Impulse);
+                Debug.Log("Everyones Dead!");
             }
         }
     }
@@ -98,7 +118,7 @@ public class Ctr : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isPlayer)
+        if (!isPlayer && other.tag == "Player Bullet")
         {
             var go = other.gameObject;
             Destroy(go);

@@ -7,30 +7,53 @@ public class Bullet : MonoBehaviour
     public float damage;
     public Health health;
     [SerializeField] private Rigidbody2D rb2d;
-    [SerializeField] private LayerMask playerLayer;
+    public GameObject shooter;
+    public EnemyScore score;
+    public EnemySpawner spawner;
 
     private void Start()
     {
         health = FindObjectOfType<Health>();
-        StartCoroutine(DestroySelf());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == playerLayer)
+        if (collision.gameObject != shooter)
         {
-            Debug.Log("Hit");
-            health.Damage(damage);
-        }
-    }
+            Debug.Log(collision.gameObject.name);
 
-    private IEnumerator DestroySelf()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            Destroy(gameObject);
+            try
+            {
+                Ctr ctr = collision.GetComponent<Ctr>();
+
+                if (ctr.isPlayer)
+                {
+                    health.Damage(damage);
+                }
+                else
+                {
+                    if (ctr.aiHealth - damage <= 0f)
+                    {
+                        score.AddScore(1);
+                        spawner.players.Remove(ctr.gameObject.transform);
+                        Destroy(ctr.gameObject);
+                        Debug.LogWarning(ctr.gameObject);
+                        Debug.LogWarning("Killed AI");
+                    }
+                    else
+                    {
+                        ctr.aiHealth -= damage;
+                        Debug.LogWarning("Did Damage");
+                    }
+                }
+            }
+            catch
+            {
+                Debug.Log("Hit Something Else");
+            }
         }
+
+        Destroy(gameObject);
     }
 
     public void AddForce(Vector3 direction, ForceMode2D forceMode2D)

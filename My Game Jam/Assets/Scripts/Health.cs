@@ -25,6 +25,7 @@ public class Health : MonoBehaviour
     public void Damage(float damage)
     {
         health -= damage;
+
         if (health > 100)
         {
             health = 100;

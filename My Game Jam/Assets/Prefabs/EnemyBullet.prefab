@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 6024087278710409369}
   - component: {fileID: 8397132110097691172}
   - component: {fileID: 9143065122296934928}
-  m_Layer: 0
+  - component: {fileID: -5177528101065911837}
+  m_Layer: 7
   m_Name: EnemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,6 +150,20 @@ MonoBehaviour:
   damage: 20
   health: {fileID: 0}
   rb2d: {fileID: 6024087278710409369}
-  playerLayer:
+  notPlayerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 129
+  shooter: {fileID: 0}
+--- !u!114 &-5177528101065911837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7353089381647757827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 508446e2cf8f30744a7802fe18ec61ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeAlive: 2

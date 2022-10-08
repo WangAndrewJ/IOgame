@@ -33,7 +33,7 @@ public class Score : MonoBehaviour
     public void AddScore(int addedScore)
     {
         score += addedScore;
-        //damageOverTime = score * damageOverTimeMultiplier;
+        damageOverTime = score * damageOverTimeMultiplier;
     }
 
     private void Update()
