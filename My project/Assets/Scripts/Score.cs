@@ -5,12 +5,13 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     public int score = 0;
-    public float damageOverTime;
+    float damageOverTime;
     public float damageOverTimeMultiplier = 0.01f;
-    public Health health;
+    Health health;
 
     private void Start()
     {
+        health = GetComponent<Health>();
         try
         {
             PlayerPrefs.GetInt("Highscore");

@@ -1,41 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
 public class Health : MonoBehaviour
 {
-    public Score score;
+    Score score;
     public float health;
-    public TextMeshPro healthText;
+    public TextMeshProUGUI healthText;
     public Slider healthBar;
     public Image healthBarFill;
     public Color maxHealthColor;
     public Color midHealthColor;
     public Color lowHealthColor;
-    public GameObject DeathScreen;
-
+    public GameObject Player;
+    private void Start()
+    {
+        score = GetComponent<Score>();
+    }
     public void Damage(float damage)
     {
+        Debug.Log("DMG");
         health -= damage;
+        if (health > 100)
+        {
+            health = 100;
+        }
 
         if (health <= 0f)
         {
             score.SetHighScore();
-            DeathScreen.SetActive(true);
-            Destroy(gameObject);
+            Destroy(Player);
+            SceneManager.LoadScene(1);
         }
 
-        healthText.text = health.ToString();
+        healthText.text = Mathf.Round(health).ToString();
         healthBar.value = health;
 
-        if (health < 75f)
+        if (health > 75f)
         {
             healthText.color = maxHealthColor;
             healthBarFill.color = maxHealthColor;
         }
-        else if (health < 25f)
+        else if (health > 25f)
         {
             healthText.color = midHealthColor;
             healthBarFill.color = midHealthColor;
