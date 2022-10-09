@@ -22,6 +22,7 @@ public class EnemyScore : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(damageOverTime);
         ctr.aiHealth -= damageOverTime * Time.deltaTime;
     }
 }

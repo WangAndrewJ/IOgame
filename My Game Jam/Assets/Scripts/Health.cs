@@ -7,7 +7,7 @@ using TMPro;
 
 public class Health : MonoBehaviour
 {
-    Score score;
+    private Score score;
     public float health;
     public TextMeshProUGUI healthText;
     public Slider healthBar;
@@ -16,10 +16,13 @@ public class Health : MonoBehaviour
     public Color midHealthColor;
     public Color lowHealthColor;
     public GameObject Player;
+    [SerializeField] private EnemySpawner spawner;
+    [SerializeField] private Ctr ctr;
 
     private void Start()
     {
         score = GetComponent<Score>();
+        spawner = FindObjectOfType<EnemySpawner>();
     }
 
     public void Damage(float damage)
@@ -33,6 +36,9 @@ public class Health : MonoBehaviour
 
         if (health <= 0f)
         {
+            spawner.players.Remove(transform);
+            spawner.listOfCtr.Remove(ctr);
+            spawner.UpdateScore();
             score.SetHighScore();
             Destroy(Player);
             SceneManager.LoadScene(1);

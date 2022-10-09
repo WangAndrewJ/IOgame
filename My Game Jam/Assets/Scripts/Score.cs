@@ -11,7 +11,8 @@ public class Score : MonoBehaviour
 
     private void Start()
     {
-        health=GetComponent<Health>();
+        health = GetComponent<Health>();
+
         try
         {
             PlayerPrefs.GetInt("Highscore");

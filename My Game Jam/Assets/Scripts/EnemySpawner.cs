@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -18,10 +19,15 @@ public class EnemySpawner : MonoBehaviour
     public Score score;
     private string usernames = "sploshreckless provideact spiffydemocrat rowboatbovril gaiterssoviet kellogsample rustleserious utsiregam spellcrafting lavishlet doletrial managescumbag jackyardconfident theirqualified triangularorangutan briskbatter frockweeping southwesterlybrails shootrunning doughnutpan lodestonecoverage motiongnu mirroryearning defensiveseveral internetloss buzzsubtract interfereprideful jugularalveoli smockburgee unwieldygambler woundcreep prudentevent exclaimclimate whichloudmouth typeauk";
     private List<string> listOfUsernames = new List<string>();
+    public List<Ctr> listOfCtr = new List<Ctr>();
+    [SerializeField] TextMeshProUGUI leaderboard;
+    private List<Ctr> topPlayers = new List<Ctr>();
+    private string leaderBoardText;
 
     private void Start()
     {
         listOfUsernames = usernames.Split(' ').ToList();
+        StartCoroutine(LateStart());
     }
 
     private void Update()
@@ -36,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
                 Ctr ctr = spawnedPrefab.GetComponent<Ctr>();
 
                 players.Add(spawnedPrefab.transform);
+                listOfCtr.Add(ctr);
                 ctr.healthScript = health;
                 ctr.scoreScript = score;
                 ctr.username = listOfUsernames[Random.Range(0, listOfUsernames.Count)];
@@ -43,5 +50,27 @@ public class EnemySpawner : MonoBehaviour
                 ctr.spawner = this;
             }
         }
+    }
+
+    private IEnumerator LateStart()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            UpdateScore();
+        }
+    }
+
+    public void UpdateScore()
+    {
+        leaderBoardText = "";
+        topPlayers = listOfCtr.OrderBy(item => item.score).Reverse().ToList();
+
+        for (int i = 0; i < 8; i++)
+        {
+            leaderBoardText += topPlayers[i].isPlayer ? $"<b>{topPlayers[i].username} - {topPlayers[i].score}</b>\n" : $"{topPlayers[i].username} - {topPlayers[i].score}\n";
+        }
+
+        leaderboard.text = leaderBoardText;
     }
 }

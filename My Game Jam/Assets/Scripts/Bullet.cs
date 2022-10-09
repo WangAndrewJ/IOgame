@@ -7,8 +7,7 @@ public class Bullet : MonoBehaviour
     public float damage;
     public Health health;
     [SerializeField] private Rigidbody2D rb2d;
-    public GameObject shooter;
-    public EnemyScore score;
+    public Ctr shooter;
     public EnemySpawner spawner;
 
     private void Start()
@@ -34,8 +33,10 @@ public class Bullet : MonoBehaviour
                 {
                     if (ctr.aiHealth - damage <= 0f)
                     {
-                        score.AddScore(1);
+                        shooter.EnemyKill();
                         spawner.players.Remove(ctr.gameObject.transform);
+                        spawner.listOfCtr.Remove(ctr);
+                        spawner.UpdateScore();
                         Destroy(ctr.gameObject);
                         Debug.LogWarning(ctr.gameObject);
                         Debug.LogWarning("Killed AI");

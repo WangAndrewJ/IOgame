@@ -893,6 +893,13 @@ MonoBehaviour:
   username: username
   usernameText: {fileID: 5493804465558695258}
   usernameTextRectTransform: {fileID: 1218446246829606768}
+  healthText: {fileID: 0}
+  healthBar: {fileID: 0}
+  healthBarFill: {fileID: 0}
+  maxHealthColor: {r: 0, g: 0, b: 0, a: 0}
+  midHealthColor: {r: 0, g: 0, b: 0, a: 0}
+  lowHealthColor: {r: 0, g: 0, b: 0, a: 0}
+  score: 0
 --- !u!50 &4378728581393977971
 Rigidbody2D:
   serializedVersion: 4
@@ -990,6 +997,8 @@ MonoBehaviour:
   midHealthColor: {r: 1, g: 0.8171741, b: 0, a: 1}
   lowHealthColor: {r: 1, g: 0, b: 0, a: 1}
   Player: {fileID: 4378728581393977975}
+  spawner: {fileID: 0}
+  ctr: {fileID: 4378728581393977973}
 --- !u!114 &179951185474695625
 MonoBehaviour:
   m_ObjectHideFlags: 0

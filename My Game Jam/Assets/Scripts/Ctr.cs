@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
 using TMPro;
+using UnityEngine.UI;
 
 public class Ctr : MonoBehaviour
 {
@@ -26,18 +27,26 @@ public class Ctr : MonoBehaviour
     public float enemyDamage;
     public float fireRate;
     private float nextTimeToFire;
-    [SerializeField] private EnemyScore aiScore;
+    public EnemyScore aiScore;
     public EnemySpawner spawner;
     Transform closestTarget;
     public string username;
     public TextMeshProUGUI usernameText;
     [SerializeField] private RectTransform usernameTextRectTransform;
+    public TextMeshProUGUI healthText;
+    public Slider healthBar;
+    public Image healthBarFill;
+    public Color maxHealthColor;
+    public Color midHealthColor;
+    public Color lowHealthColor;
+    public int score;
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (isPlayer)
         {
+            score = scoreScript.score;
             Vector3 diff = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue()) - transform.position;
             diff.Normalize();
             float rotation = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
@@ -47,6 +56,8 @@ public class Ctr : MonoBehaviour
         }
         else
         {
+            score = aiScore.score;
+
             try
             {
                 var closestTargets = spawner.players.OrderBy(o => (o.transform.position - transform.position).sqrMagnitude);
@@ -62,6 +73,8 @@ public class Ctr : MonoBehaviour
                     healthScript.Damage(-gainOnKill);
                     scoreScript.AddScore(1);
                     spawner.players.Remove(transform);
+                    spawner.listOfCtr.Remove(this);
+                    spawner.UpdateScore();
                     Destroy(gameObject);
                 }
 
@@ -84,8 +97,7 @@ public class Ctr : MonoBehaviour
                     Bullet enemyBullet = Bullet.GetComponent<Bullet>();
                     enemyBullet.damage = enemyDamage;
                     enemyBullet.health = healthScript;
-                    enemyBullet.shooter = gameObject;
-                    enemyBullet.score = aiScore;
+                    enemyBullet.shooter = this;
                     enemyBullet.spawner = spawner;
                     enemyBullet.AddForce(FirePoint.transform.up * force, ForceMode2D.Impulse);
                 }
@@ -93,6 +105,30 @@ public class Ctr : MonoBehaviour
             catch
             {
                 Debug.Log("Everyones Dead!");
+            }
+
+            if (aiHealth > 100)
+            {
+                aiHealth = 100;
+            }
+
+            healthText.text = Mathf.Round(aiHealth).ToString();
+            healthBar.value = aiHealth;
+
+            if (aiHealth > 75f)
+            {
+                healthText.color = maxHealthColor;
+                healthBarFill.color = maxHealthColor;
+            }
+            else if (aiHealth > 25f)
+            {
+                healthText.color = midHealthColor;
+                healthBarFill.color = midHealthColor;
+            }
+            else
+            {
+                healthText.color = lowHealthColor;
+                healthBarFill.color = lowHealthColor;
             }
         }
 
@@ -129,5 +165,11 @@ public class Ctr : MonoBehaviour
             Destroy(go);
             aiHealth -= 20;
         }
+    }
+
+    public void EnemyKill()
+    {
+        aiScore.AddScore(1);
+        aiHealth += gainOnKill;
     }
 }
