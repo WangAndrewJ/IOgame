@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -15,6 +16,13 @@ public class EnemySpawner : MonoBehaviour
     public GameObject AI;
     public Health health;
     public Score score;
+    private string usernames = "sploshreckless provideact spiffydemocrat rowboatbovril gaiterssoviet kellogsample rustleserious utsiregam spellcrafting lavishlet doletrial managescumbag jackyardconfident theirqualified triangularorangutan briskbatter frockweeping southwesterlybrails shootrunning doughnutpan lodestonecoverage motiongnu mirroryearning defensiveseveral internetloss buzzsubtract interfereprideful jugularalveoli smockburgee unwieldygambler woundcreep prudentevent exclaimclimate whichloudmouth typeauk";
+    private List<string> listOfUsernames = new List<string>();
+
+    private void Start()
+    {
+        listOfUsernames = usernames.Split(' ').ToList();
+    }
 
     private void Update()
     {
@@ -30,6 +38,8 @@ public class EnemySpawner : MonoBehaviour
                 players.Add(spawnedPrefab.transform);
                 ctr.healthScript = health;
                 ctr.scoreScript = score;
+                ctr.username = listOfUsernames[Random.Range(0, listOfUsernames.Count)];
+                ctr.usernameText.text = ctr.username;
                 ctr.spawner = this;
             }
         }

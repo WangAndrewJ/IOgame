@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Linq;
+using TMPro;
 
 public class Ctr : MonoBehaviour
 {
@@ -28,12 +29,9 @@ public class Ctr : MonoBehaviour
     [SerializeField] private EnemyScore aiScore;
     public EnemySpawner spawner;
     Transform closestTarget;
-
-/*    // Start is called before the first frame update
-    void Start()
-    {
-        healthScript = FindObjectOfType<Health>();
-    }*/
+    public string username;
+    public TextMeshProUGUI usernameText;
+    [SerializeField] private RectTransform usernameTextRectTransform;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -45,6 +43,7 @@ public class Ctr : MonoBehaviour
             float rotation = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, rotation);
             rb2d.velocity = Velocity * Time.deltaTime;
+            usernameText.text = username;
         }
         else
         {
@@ -96,6 +95,12 @@ public class Ctr : MonoBehaviour
                 Debug.Log("Everyones Dead!");
             }
         }
+
+        try
+        {
+            usernameTextRectTransform.rotation = Quaternion.identity;
+        }
+        catch { }
     }
 
     void OnMove(InputValue Move)
